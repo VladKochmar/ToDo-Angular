@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-not-found-page',
+  selector: 'todo-not-found-page',
   imports: [MatCardModule, MatButtonModule],
   templateUrl: './not-found-page.html',
   styleUrl: './not-found-page.scss',

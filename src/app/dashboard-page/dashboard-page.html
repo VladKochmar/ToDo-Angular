@@ -1,0 +1,9 @@
+<section>
+  @if (auth.user$ | async; as user) {
+  <h1>Hello, {{ user.name }}</h1>
+  <button matButton="filled" (click)="logout()">
+    <mat-icon fontIcon="logout"></mat-icon>
+    Logout
+  </button>
+  }
+</section>
