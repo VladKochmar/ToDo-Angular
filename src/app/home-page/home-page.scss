@@ -1,0 +1,17 @@
+.home {
+  .page-card__content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .page-card__title {
+    &:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+  }
+  .page-card__subtitle {
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+}

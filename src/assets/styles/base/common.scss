@@ -1,0 +1,32 @@
+.page-center {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-card {
+  // .page-card__content
+  &__content {
+    text-align: center;
+  }
+  // .page-card__code
+  &__code {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--mat-sys-primary);
+    line-height: 1.1;
+  }
+  // .page-card__title
+  &__title {
+    font-size: var(--mat-sys-title-large-size);
+    font-weight: 600;
+    line-height: var(--mat-sys-title-large-line-height);
+    color: var(--mat-sys-on-surface);
+  }
+  // .page-card__subtitle
+  &__subtitle {
+    font-size: var(--mat-sys-body-medium-size);
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
