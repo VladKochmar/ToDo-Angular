@@ -11,7 +11,7 @@
         <a mat-list-item (click)="$event.preventDefault()">{{category.title}}</a>
         }
       </mat-nav-list>
-      <button matButton="text" class="sidebar__button">
+      <button matButton="text" (click)="openDialog()" class="sidebar__button">
         <mat-icon fontIcon="add_circle"></mat-icon>
         Create new category
       </button>

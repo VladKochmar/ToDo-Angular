@@ -1,12 +1,17 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, inject, OnDestroy, signal } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+
 import { ICategoryResponse } from '../../../core/api/todo-api';
+
 import { SidebarHeader } from '../sidebar-header/sidebar-header';
+import { CategoryCreatorDialog } from '../category-creator-dialog/category-creator-dialog';
 
 @Component({
   selector: 'todo-sidebar',
@@ -33,6 +38,8 @@ export class Sidebar implements OnDestroy {
     { id: '8', title: 'Party' },
   ];
 
+  protected readonly dialog = inject(MatDialog);
+
   protected readonly isMobile = signal(true);
 
   private readonly _mobileQuery: MediaQueryList;
@@ -41,10 +48,14 @@ export class Sidebar implements OnDestroy {
   constructor() {
     const media = inject(MediaMatcher);
 
-    this._mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQuery = media.matchMedia('(max-width: 768px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+  }
+
+  openDialog(): void {
+    this.dialog.open(CategoryCreatorDialog);
   }
 
   ngOnDestroy(): void {
