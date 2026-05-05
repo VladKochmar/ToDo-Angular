@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-content>
+    <div class="task-card">
+      <div>
+        <mat-checkbox [(ngModel)]="task().isCompleted">
+          <span class="task-card__label">{{task().title}}</span>
+        </mat-checkbox>
+
+        <!-- @if (task().dueDate) {
+        <p class="task-card__time">{{task().dueDate}}</p>
+        } -->
+
+      </div>
+      <div class="task-card__actions">
+        <button matIconButton (click)="openDialog()"><mat-icon>info</mat-icon></button>
+        <button matIconButton><mat-icon>delete</mat-icon></button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

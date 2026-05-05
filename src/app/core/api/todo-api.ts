@@ -36,6 +36,8 @@ export interface ITaskResponse {
   isCompleted?: boolean;
   description?: string | null;
   categoryName?: string | null;
+  /** @format uuid */
+  categoryId?: string | null;
   /** @format date-time */
   dueDate?: string | null;
 }

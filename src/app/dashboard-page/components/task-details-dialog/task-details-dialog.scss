@@ -1,0 +1,22 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem 0;
+  min-width: 320px;
+  // .dialog-content__section
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem 0;
+  }
+  // .dialog-content__title
+  &__title {
+    font-size: var(--mat-sys-body-small-size);
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+  }
+  // .dialog-content__text
+  &__text {
+    color: var(--mat-sys-on-surface);
+  }
+}

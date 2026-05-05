@@ -1,0 +1,23 @@
+.task-card {
+  display: flex;
+  gap: 0 1rem;
+  justify-content: space-between;
+  // .task-card__label
+  &__label {
+    color: var(--mat-sys-on-surface);
+    font-size: var(--mat-sys-title-medium-size);
+    line-height: var(--mat-sys-title-medium-line-height);
+  }
+  // .task-card__time
+  &__time {
+    padding-left: 2.75rem;
+    font-size: var(--mat-sys-body-small-size);
+    color: var(--mat-sys-on-surface-variant);
+  }
+  // .task-card__actions
+  &__actions {
+    display: flex;
+    gap: 0 0.5rem;
+    align-self: center;
+  }
+}
