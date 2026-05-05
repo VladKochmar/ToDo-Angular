@@ -1,10 +1,27 @@
 <todo-sidebar>
-  @if (auth.user$ | async; as user) {
-  <h1>Hello, {{ user.name }}</h1>
-  <button matButton="filled" (click)="logout()">
-    <mat-icon fontIcon="logout"></mat-icon>
-    Logout
-  </button>
-  <todo-task-item [task]="task" />
-  }
+  <div class="dashboard">
+    <div class="dashboard__tasks-list">
+
+      @for (task of tasks; track task.id) {
+      <todo-task-item [task]="task" />
+      }
+
+    </div>
+
+    <mat-form-field appearance="outline" class="dashboard__create-field">
+      <mat-icon matPrefix>add</mat-icon>
+
+      <input matInput placeholder="Add a new task..." [(ngModel)]="newTaskTitle" (keydown.enter)="createTask()" />
+
+      @if (newTaskTitle) {
+      <button matIconButton matSuffix type="button" (click)="clearInput()">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+
+      <button matIconButton matSuffix color="primary" type="button" (click)="createTask()" [disabled]="!newTaskTitle.trim()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 </todo-sidebar>
