@@ -1,4 +1,4 @@
-<section>
+<todo-sidebar>
   @if (auth.user$ | async; as user) {
   <h1>Hello, {{ user.name }}</h1>
   <button matButton="filled" (click)="logout()">
@@ -6,4 +6,4 @@
     Logout
   </button>
   }
-</section>
+</todo-sidebar>

@@ -3,10 +3,11 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '@auth0/auth0-angular';
+import { Sidebar } from './components/sidebar/sidebar';
 
 @Component({
   selector: 'todo-dashboard-page',
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, Sidebar],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',
 })

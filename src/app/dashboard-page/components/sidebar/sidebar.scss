@@ -1,0 +1,23 @@
+.sidenav-container {
+  height: 100vh;
+}
+.sidebar {
+  border-right-style: solid;
+  border-right-width: var(--mat-divider-width, 1px);
+  border-right-color: var(--mat-divider-color, var(--mat-sys-outline-variant));
+  // .sidebar__body
+  &__body {
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  // .sidebar__section-title
+  &__section-title {
+    text-transform: uppercase;
+    font-size: var(--mat-sys-body-medium-size);
+    color: var(--mat-sys-on-surface-variant);
+  }
+  // .sidebar__button
+  &__button {
+    width: 100%;
+  }
+}
