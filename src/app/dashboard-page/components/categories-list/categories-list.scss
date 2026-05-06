@@ -1,0 +1,9 @@
+.categories {
+  height: 100%;
+  // .categories__title
+  &__title {
+    text-transform: uppercase;
+    font-size: var(--mat-sys-body-medium-size);
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

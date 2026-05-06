@@ -10,12 +10,6 @@
     padding: 1rem;
     overflow-y: auto;
   }
-  // .sidebar__section-title
-  &__section-title {
-    text-transform: uppercase;
-    font-size: var(--mat-sys-body-medium-size);
-    color: var(--mat-sys-on-surface-variant);
-  }
   // .sidebar__button
   &__button {
     width: 100%;

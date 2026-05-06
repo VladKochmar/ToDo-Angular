@@ -1,0 +1,30 @@
+<div class="categories">
+  <div class="categories__title">Categories</div>
+  @if(isLoading()) {
+  <mat-spinner diameter="48"></mat-spinner>
+  } @else {
+  <mat-nav-list>
+    <a mat-list-item (click)="$event.preventDefault()">All</a>
+    <a mat-list-item (click)="$event.preventDefault()">Uncategorized</a>
+
+    <mat-divider></mat-divider>
+
+    @for (category of categories(); track category.id) {
+    <a mat-list-item (click)="$event.preventDefault()" [matContextMenuTriggerFor]="categoryContextMenu" [matContextMenuTriggerData]="{id: category.id, title: category.title}">{{category.title}}</a>
+    }
+  </mat-nav-list>
+  }
+</div>
+
+<mat-menu #categoryContextMenu>
+  <ng-template matMenuContent let-id="id" let-title="title">
+    <button mat-menu-item (click)="openEditDialog(id, title)">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-menu-item (click)="openConfirmationDialog(id)">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </ng-template>
+</mat-menu>

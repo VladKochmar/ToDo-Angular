@@ -1,11 +1,19 @@
 <todo-sidebar>
   <div class="dashboard">
-    <div class="dashboard__tasks-list">
+    <div class="dashboard__content">
+      @if (isLoading()) {
+      <div class="dashboard__spinner-container">
+        <mat-spinner></mat-spinner>
+      </div>
+      } @else {
+      <div class="dashboard__tasks-list">
 
-      @for (task of tasks; track task.id) {
-      <todo-task-item [task]="task" />
+        @for (task of tasks(); track task.id) {
+        <todo-task-item [task]="task" />
+        }
+
+      </div>
       }
-
     </div>
 
     <mat-form-field appearance="outline" class="dashboard__create-field">

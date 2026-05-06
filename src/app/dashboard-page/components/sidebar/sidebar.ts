@@ -2,7 +2,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, inject, OnDestroy, signal } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -12,32 +11,24 @@ import { ICategoryResponse } from '../../../core/api/todo-api';
 
 import { SidebarHeader } from '../sidebar-header/sidebar-header';
 import { CategoryCreatorDialog } from '../category-creator-dialog/category-creator-dialog';
+import { MatDivider } from '@angular/material/divider';
+import { CategoriesList } from '../categories-list/categories-list';
 
 @Component({
   selector: 'todo-sidebar',
   imports: [
-    MatListModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
     MatSidenavModule,
     SidebarHeader,
+    MatDivider,
+    CategoriesList,
   ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
 export class Sidebar implements OnDestroy {
-  protected categories: ICategoryResponse[] = [
-    { id: '1', title: 'Home' },
-    { id: '2', title: 'Health' },
-    { id: '3', title: 'Job' },
-    { id: '4', title: 'Study' },
-    { id: '5', title: 'Languages' },
-    { id: '6', title: 'Products' },
-    { id: '7', title: 'Sport' },
-    { id: '8', title: 'Party' },
-  ];
-
   protected readonly dialog = inject(MatDialog);
 
   protected readonly isMobile = signal(true);

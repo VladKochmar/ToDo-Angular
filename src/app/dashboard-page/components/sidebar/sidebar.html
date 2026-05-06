@@ -3,14 +3,7 @@
     <todo-sidebar-header />
     <mat-divider />
     <div class="sidebar__body">
-      <div class="sidebar__section-title">Categories</div>
-      <mat-nav-list>
-        <a mat-list-item (click)="$event.preventDefault()">All</a>
-        <a mat-list-item (click)="$event.preventDefault()">Uncategorized</a>
-        @for (category of categories; track category.id) {
-        <a mat-list-item (click)="$event.preventDefault()">{{category.title}}</a>
-        }
-      </mat-nav-list>
+      <todo-categories-list />
       <button matButton="text" (click)="openDialog()" class="sidebar__button">
         <mat-icon fontIcon="add_circle"></mat-icon>
         Create new category

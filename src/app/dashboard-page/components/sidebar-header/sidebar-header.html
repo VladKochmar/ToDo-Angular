@@ -1,16 +1,16 @@
 <div class="sidebar-header">
   <div class="sidebar-header__user user">
+    @if (user$ | async; as user) {
     <div class="user__info">
       <div class="user__name">
-        <!-- {{ displayName }} -->
-        Vlad Kochmar
+        {{user.name}}
       </div>
 
       <div class="user__email">
-        <!-- {{ user?.email }} -->
-        vladkochmar@gmail.com
+        {{user.email}}
       </div>
     </div>
+    }
 
     <button matIconButton (click)="logout()">
       <mat-icon>logout</mat-icon>
