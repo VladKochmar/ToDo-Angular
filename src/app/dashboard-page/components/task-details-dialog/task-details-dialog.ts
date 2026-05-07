@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface DialogData {
   task: ITaskResponse;
+  categories: ICategoryResponse[];
 }
 
 @Component({
@@ -47,13 +48,6 @@ export interface DialogData {
 export class TaskDetailsDialog {
   protected isEditMode = false;
 
-  protected categories: ICategoryResponse[] = [
-    { id: '1', title: 'Home' },
-    { id: '2', title: 'Health' },
-    { id: '3', title: 'Job' },
-    { id: '4', title: 'Study' },
-  ];
-
   protected readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   protected readonly dialogRef = inject(MatDialogRef<TaskDetailsDialog>);
 
@@ -67,7 +61,7 @@ export class TaskDetailsDialog {
 
   protected taskForm = form(this.taskModel);
 
-  enableEdit() {
+  enableEdit(): void {
     this.isEditMode = true;
 
     this.taskModel.set({
@@ -79,11 +73,15 @@ export class TaskDetailsDialog {
     });
   }
 
-  cancelEdit() {
+  cancelEdit(): void {
     this.isEditMode = false;
   }
 
-  close() {
+  save(): void {
+    this.dialogRef.close(this.taskModel());
+  }
+
+  close(): void {
     this.dialogRef.close();
   }
 }

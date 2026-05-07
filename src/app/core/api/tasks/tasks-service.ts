@@ -3,13 +3,16 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICreateTaskRequest, ITaskResponse, IUpdateTaskRequest } from '../todo-api';
 import { environment } from '../../../../environments/environment.development';
+import { NotificationService } from '../../../shared/services/notification-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
   private readonly _baseUrl = environment.apiUrl;
+
   private readonly _http = inject(HttpClient);
+  private readonly _notificationService = inject(NotificationService);
 
   private readonly _tasks = signal<ITaskResponse[]>([]);
   private readonly _isLoading = signal(false);
@@ -28,8 +31,10 @@ export class TasksService {
         this._tasks.set(response);
         this._isLoading.set(false);
       },
-      error: () => {
-        this._error.set('Failed to load tasks');
+      error: (response) => {
+        this._error.set(response.error.detail);
+        this._notificationService.show(this.error() as string);
+
         this._isLoading.set(false);
       },
     });
@@ -44,8 +49,10 @@ export class TasksService {
         this._tasks.set(response);
         this._isLoading.set(false);
       },
-      error: () => {
-        this._error.set('Failed to load tasks');
+      error: (response) => {
+        this._error.set(response.error.detail);
+        this._notificationService.show(this.error() as string);
+
         this._isLoading.set(false);
       },
     });
@@ -64,14 +71,16 @@ export class TasksService {
         this._tasks.update((prev) => [...prev, response]);
         this._isLoading.set(false);
       },
-      error: () => {
-        this._error.set('Failed to create task');
+      error: (response) => {
+        this._error.set(response.error.detail);
+        this._notificationService.show(this.error() as string);
+
         this._isLoading.set(false);
       },
     });
   }
 
-  updateTask(id: string, request: IUpdateTaskRequest): void {
+  update(id: string, request: IUpdateTaskRequest): void {
     this._isLoading.set(true);
     this._error.set(null);
 
@@ -79,14 +88,16 @@ export class TasksService {
       next: () => {
         this.load();
       },
-      error: () => {
-        this._error.set('Failed to update task');
+      error: (response) => {
+        this._error.set(response.error.detail);
+        this._notificationService.show(this.error() as string);
+
         this._isLoading.set(false);
       },
     });
   }
 
-  deleteTask(id: string): void {
+  delete(id: string): void {
     this._isLoading.set(true);
     this._error.set(null);
 
@@ -95,8 +106,10 @@ export class TasksService {
         this._tasks.update((prev) => prev.filter((t) => t.id !== id));
         this._isLoading.set(false);
       },
-      error: () => {
-        this._error.set('Failed to delete task');
+      error: (response) => {
+        this._error.set(response.error.detail);
+        this._notificationService.show(this.error() as string);
+
         this._isLoading.set(false);
       },
     });

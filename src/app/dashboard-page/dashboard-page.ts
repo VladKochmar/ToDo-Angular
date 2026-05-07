@@ -10,6 +10,8 @@ import { Sidebar } from './components/sidebar/sidebar';
 import { TaskItem } from './components/task-item/task-item';
 
 import { TasksService } from '../core/api/tasks/tasks-service';
+import { IUpdateTaskRequest } from '../core/api/todo-api';
+import { CategoriesService } from '../core/api/categories/categories-service';
 
 @Component({
   selector: 'todo-dashboard-page',
@@ -29,9 +31,12 @@ import { TasksService } from '../core/api/tasks/tasks-service';
 })
 export class DashboardPage implements OnInit {
   private readonly _tasksService = inject(TasksService);
+  private readonly _categoriesService = inject(CategoriesService);
 
   protected tasks = this._tasksService.tasks;
   protected isLoading = this._tasksService.isLoading;
+
+  protected categories = this._categoriesService.categories;
 
   protected newTaskTitle = '';
 
@@ -39,17 +44,27 @@ export class DashboardPage implements OnInit {
     this._tasksService.load();
   }
 
-  createTask() {
+  createTask(): void {
     const title = this.newTaskTitle.trim();
 
     if (!title) return;
 
-    console.log('create task:', title);
+    this._tasksService.create({ title });
 
     this.newTaskTitle = '';
   }
 
-  clearInput() {
+  updateTask(id: string, updatedTask: IUpdateTaskRequest): void {
+    this._tasksService.update(id, updatedTask);
+  }
+
+  deleteTask(id: string): void {
+    if (id.trim()) {
+      this._tasksService.delete(id);
+    }
+  }
+
+  clearInput(): void {
     this.newTaskTitle = '';
   }
 }

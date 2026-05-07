@@ -37,18 +37,17 @@ export class CategoriesList implements OnInit {
   }
 
   openConfirmationDialog(id: string) {
-    this._dialog.open(ConfirmationDialog, {
+    const dialogRef = this._dialog.open(ConfirmationDialog, {
       data: {
         title: 'Delete category',
         text: 'Are you sure you want to delete this category?',
-        action: () => {
-          this.delete(id);
-        },
       },
     });
-  }
 
-  private delete(id: string) {
-    this._categoriesService.delete(id);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this._categoriesService.delete(id);
+      }
+    });
   }
 }

@@ -51,7 +51,8 @@
     <mat-form-field appearance="outline">
       <mat-label>Task category</mat-label>
       <mat-select [formField]="taskForm.categoryId">
-        @for (category of categories; track category.id) {
+        <mat-option [value]="null" selected>Uncategorized</mat-option>
+        @for (category of data.categories; track category.id) {
         <mat-option [value]="category.id">{{category.title}}</mat-option>
         }
       </mat-select>
@@ -75,9 +76,11 @@
 <mat-dialog-actions align="end">
   @if (!isEditMode) {
   <button matButton="filled" (click)="close()">Close</button>
+  @if (!data.task.isCompleted) {
   <button matButton="outlined" (click)="enableEdit()">Edit</button>
+  }
   } @else {
   <button matButton="filled" (click)="cancelEdit()">Cancel</button>
-  <button matButton="outlined">Save</button>
+  <button matButton="outlined" (click)="save()">Save</button>
   }
 </mat-dialog-actions>
