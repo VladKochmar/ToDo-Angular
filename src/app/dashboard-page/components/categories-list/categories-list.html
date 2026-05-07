@@ -4,13 +4,13 @@
   <mat-spinner diameter="48"></mat-spinner>
   } @else {
   <mat-nav-list>
-    <a mat-list-item (click)="$event.preventDefault()">All</a>
-    <a mat-list-item (click)="$event.preventDefault()">Uncategorized</a>
-
+    <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active">All</a>
     <mat-divider></mat-divider>
 
     @for (category of categories(); track category.id) {
-    <a mat-list-item (click)="$event.preventDefault()" [matContextMenuTriggerFor]="categoryContextMenu" [matContextMenuTriggerData]="{id: category.id, title: category.title}">{{category.title}}</a>
+    <a mat-list-item [routerLink]="['/dashboard']" [queryParams]="{ category: category.id }" routerLinkActive="active" [matContextMenuTriggerFor]="categoryContextMenu" [matContextMenuTriggerData]="{id: category.id, title: category.title}">
+      {{category.title}}
+    </a>
     }
   </mat-nav-list>
   }

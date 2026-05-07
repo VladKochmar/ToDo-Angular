@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -12,7 +13,15 @@ import { CategoryCreatorDialog } from '../category-creator-dialog/category-creat
 
 @Component({
   selector: 'todo-categories-list',
-  imports: [MatIconModule, MatListModule, MatMenuModule, MatProgressSpinnerModule],
+  imports: [
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './categories-list.html',
   styleUrl: './categories-list.scss',
 })
@@ -27,7 +36,7 @@ export class CategoriesList implements OnInit {
     this._categoriesService.load();
   }
 
-  openEditDialog(id: string, title: string) {
+  openEditDialog(id: string, title: string): void {
     this._dialog.open(CategoryCreatorDialog, {
       data: {
         id,
@@ -36,7 +45,7 @@ export class CategoriesList implements OnInit {
     });
   }
 
-  openConfirmationDialog(id: string) {
+  openConfirmationDialog(id: string): void {
     const dialogRef = this._dialog.open(ConfirmationDialog, {
       data: {
         title: 'Delete category',

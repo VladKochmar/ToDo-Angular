@@ -12,6 +12,7 @@ import { TaskItem } from './components/task-item/task-item';
 import { TasksService } from '../core/api/tasks/tasks-service';
 import { IUpdateTaskRequest } from '../core/api/todo-api';
 import { CategoriesService } from '../core/api/categories/categories-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'todo-dashboard-page',
@@ -33,6 +34,8 @@ export class DashboardPage implements OnInit {
   private readonly _tasksService = inject(TasksService);
   private readonly _categoriesService = inject(CategoriesService);
 
+  private readonly _route = inject(ActivatedRoute);
+
   protected tasks = this._tasksService.tasks;
   protected isLoading = this._tasksService.isLoading;
 
@@ -41,6 +44,17 @@ export class DashboardPage implements OnInit {
   protected newTaskTitle = '';
 
   ngOnInit(): void {
+    this._route.queryParamMap.subscribe((params) => {
+      const categoryId = params.get('category');
+
+      if (!categoryId) {
+        this._tasksService.load();
+        return;
+      }
+
+      this._tasksService.loadByCategory(categoryId);
+    });
+
     this._tasksService.load();
   }
 
