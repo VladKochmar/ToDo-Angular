@@ -2,6 +2,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
+import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +18,7 @@ import { IUpdateTaskRequest } from '../core/api/todo-api';
 import { CategoriesService } from '../core/api/categories/categories-service';
 
 import { noWhitespaceValidator } from '../shared/validators/no-whitespace';
-import { merge } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TasksEmpty } from './components/tasks-empty/tasks-empty';
 
 @Component({
   selector: 'todo-dashboard-page',
@@ -30,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
     Sidebar,
     TaskItem,
+    TasksEmpty,
   ],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',

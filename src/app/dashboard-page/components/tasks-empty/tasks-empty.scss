@@ -1,0 +1,34 @@
+.tasks-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 16px;
+  padding: 48px 24px;
+  border: 1px dashed var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-low);
+  // .tasks-empty__icon
+  &__icon {
+    opacity: 0.6;
+    width: 64px;
+    height: 64px;
+    font-size: 4rem;
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+  // .tasks-empty__title
+  &__title {
+    font-size: var(--mat-sys-title-large-size);
+    font-weight: var(--mat-sys-title-medium-weight);
+    &:not(:last-child) {
+      margin: 0 0 8px;
+    }
+  }
+
+  &__text {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

@@ -10,6 +10,8 @@
 
         @for (task of tasks(); track task.id) {
         <todo-task-item [task]="task" [categories]="categories()" (delete)="deleteTask($event)" (update)="updateTask($event.id, $event.updatedTask)" />
+        } @empty {
+        <todo-tasks-empty />
         }
 
       </div>
