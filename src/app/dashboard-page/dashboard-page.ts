@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -12,12 +13,15 @@ import { TaskItem } from './components/task-item/task-item';
 import { TasksService } from '../core/api/tasks/tasks-service';
 import { IUpdateTaskRequest } from '../core/api/todo-api';
 import { CategoriesService } from '../core/api/categories/categories-service';
-import { ActivatedRoute } from '@angular/router';
+
+import { noWhitespaceValidator } from '../shared/validators/no-whitespace';
+import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'todo-dashboard-page',
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
 
     MatIconModule,
     MatInputModule,
@@ -41,7 +45,20 @@ export class DashboardPage implements OnInit {
 
   protected categories = this._categoriesService.categories;
 
-  protected newTaskTitle = '';
+  protected newTaskTitleControl = new FormControl('', [
+    noWhitespaceValidator,
+
+    Validators.required,
+    Validators.maxLength(255),
+  ]);
+
+  protected errorMessage = signal('');
+
+  constructor() {
+    merge(this.newTaskTitleControl.statusChanges, this.newTaskTitleControl.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage());
+  }
 
   ngOnInit(): void {
     this._route.queryParamMap.subscribe((params) => {
@@ -54,18 +71,19 @@ export class DashboardPage implements OnInit {
 
       this._tasksService.loadByCategory(categoryId);
     });
-
-    this._tasksService.load();
   }
 
   createTask(): void {
-    const title = this.newTaskTitle.trim();
+    if (this.newTaskTitleControl.invalid) {
+      this.newTaskTitleControl.markAsTouched();
+      return;
+    }
 
-    if (!title) return;
+    const title = this.newTaskTitleControl.value!.trim();
 
     this._tasksService.create({ title });
 
-    this.newTaskTitle = '';
+    this.newTaskTitleControl.reset();
   }
 
   updateTask(id: string, updatedTask: IUpdateTaskRequest): void {
@@ -79,6 +97,18 @@ export class DashboardPage implements OnInit {
   }
 
   clearInput(): void {
-    this.newTaskTitle = '';
+    this.newTaskTitleControl.reset();
+  }
+
+  updateErrorMessage(): void {
+    if (this.newTaskTitleControl.hasError('required')) {
+      this.errorMessage.set('Title is required');
+    } else if (this.newTaskTitleControl.hasError('maxlength')) {
+      this.errorMessage.set('Max length is 100 characters');
+    } else if (this.newTaskTitleControl.hasError('whitespace')) {
+      this.errorMessage.set('Title cannot contain only spaces');
+    } else {
+      this.errorMessage.set('');
+    }
   }
 }

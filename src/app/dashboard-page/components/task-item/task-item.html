@@ -6,9 +6,9 @@
           <span class="task-card__label">{{task().title}}</span>
         </mat-checkbox>
 
-        <!-- @if (task().dueDate) {
-        <p class="task-card__time">{{task().dueDate}}</p>
-        } -->
+        @if (task().dueDate) {
+        <p class="task-card__time">{{task().dueDate | date:'dd.MM.yyyy HH:mm'}}</p>
+        }
 
       </div>
       <div class="task-card__actions">

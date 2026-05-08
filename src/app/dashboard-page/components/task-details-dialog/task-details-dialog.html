@@ -1,86 +1,125 @@
-<h2 mat-dialog-title>
-  @if (!isEditMode) {
-  {{data.task.title || 'Untitled task'}}
-  } @else {
-  <mat-form-field appearance="outline">
-    <mat-label>Task title</mat-label>
-    <input matInput [formField]="taskForm.title" />
-  </mat-form-field>
-  }
-</h2>
-<mat-dialog-content class="dialog-content">
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <h2 mat-dialog-title>
+    @if (!isEditMode) {
+    {{data.task.title || 'Untitled task'}}
+    } @else {
+    <mat-form-field appearance="outline">
+      <mat-label>Task title</mat-label>
+      <input matInput formControlName="title" />
 
-  <div class="dialog-content__section">
-    <div class="dialog-content__title">Status</div>
-    <div>
+      @if (taskForm.controls.title.invalid) {
+      <mat-error>
+        {{ errorMessages().title }}
+      </mat-error>
+      }
+    </mat-form-field>
+    }
+  </h2>
+  <mat-dialog-content class="dialog-content">
+
+    <div class="dialog-content__section">
+      <div class="dialog-content__title">Status</div>
+      <div>
+        @if (!isEditMode) {
+        <mat-chip>
+          {{ data.task.isCompleted ? 'Completed' : 'Active' }}
+        </mat-chip>
+        } @else {
+        <mat-checkbox formControlName="isCompleted">
+          {{ taskForm.controls.isCompleted.value ? 'Completed' : 'Active' }}
+        </mat-checkbox>
+        }
+      </div>
+    </div>
+    <mat-divider />
+
+    <div class="dialog-content__section">
+      <div class="dialog-content__title">Description</div>
       @if (!isEditMode) {
-      <mat-chip>
-        {{ data.task.isCompleted ? 'Completed' : 'Active' }}
-      </mat-chip>
+      <p class="dialog-content__text">
+        {{ data.task.description || 'No description' }}
+      </p>
       } @else {
-      <mat-checkbox [formField]="taskForm.isCompleted">
-        {{ taskModel().isCompleted ? 'Completed' : 'Active' }}
-      </mat-checkbox>
+      <mat-form-field appearance="outline">
+        <mat-label>Task description</mat-label>
+        <textarea matInput rows="4" formControlName="description"></textarea>
+
+        @if (taskForm.controls.description.invalid) {
+        <mat-error>
+          {{ errorMessages().description }}
+        </mat-error>
+        }
+      </mat-form-field>
       }
     </div>
-  </div>
-  <mat-divider />
+    <mat-divider />
 
-  <div class="dialog-content__section">
-    <div class="dialog-content__title">Description</div>
+    <div class="dialog-content__section">
+      <div class="dialog-content__title">Category</div>
+      @if (!isEditMode) {
+      <p class="dialog-content__text">
+        {{ data.task.categoryName || 'Uncategorized' }}
+      </p>
+      } @else {
+      <mat-form-field appearance="outline">
+        <mat-label>Task category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option [value]="null" selected>Uncategorized</mat-option>
+          @for (category of data.categories; track category.id) {
+          <mat-option [value]="category.id">{{category.title}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      }
+    </div>
+    <mat-divider />
+
+    <div class="dialog-content__section">
+      <div class="dialog-content__title">Due date</div>
+
+      @if (!isEditMode) {
+      <p class="dialog-content__text">
+        {{
+        data.task.dueDate
+        ? (data.task.dueDate | date:'dd.MM.yyyy HH:mm')
+        : 'No due date'
+        }}
+      </p>
+      } @else {
+      <div class="dialog-content__due-date-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Due date</mat-label>
+
+          <input matInput [matDatepicker]="dueDate" formControlName="dueDate">
+
+          <mat-datepicker-toggle matIconSuffix [for]="dueDate"></mat-datepicker-toggle>
+          <mat-datepicker #dueDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Time</mat-label>
+
+          <input matInput formControlName="dueTime">
+        </mat-form-field>
+
+        <button type="button" matButton="outlined" (click)="resetDueDate()">
+          Reset
+        </button>
+      </div>
+      }
+
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
     @if (!isEditMode) {
-    <p class="dialog-content__text">
-      {{ data.task.description || 'No description' }}
-    </p>
-    } @else {
-    <mat-form-field appearance="outline">
-      <mat-label>Task description</mat-label>
-      <textarea matInput rows="4" [formField]="taskForm.description"></textarea>
-    </mat-form-field>
+    <button matButton="filled" type="button" (click)="close()">Close</button>
+    @if (!data.task.isCompleted) {
+    <button matButton="outlined" type="button" (click)="enableEdit()">Edit</button>
     }
-  </div>
-  <mat-divider />
-
-  <div class="dialog-content__section">
-    <div class="dialog-content__title">Category</div>
-    @if (!isEditMode) {
-    <p class="dialog-content__text">
-      {{ data.task.categoryName || 'Uncategorized' }}
-    </p>
     } @else {
-    <mat-form-field appearance="outline">
-      <mat-label>Task category</mat-label>
-      <mat-select [formField]="taskForm.categoryId">
-        <mat-option [value]="null" selected>Uncategorized</mat-option>
-        @for (category of data.categories; track category.id) {
-        <mat-option [value]="category.id">{{category.title}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <button matButton="filled" type="button" (click)="cancelEdit()">Cancel</button>
+    <button matButton="outlined" type="submit" [disabled]="taskForm.invalid">Save</button>
     }
-  </div>
-  <mat-divider />
-
-  <!-- <div class="dialog-content__section">
-    <div class="dialog-content__title">Due date</div>
-    <p class="dialog-content__text">
-      {{
-      data.task.dueDate
-      ? (data.task.dueDate)
-      : 'No due date'
-      }}
-    </p>
-  </div> -->
-
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  @if (!isEditMode) {
-  <button matButton="filled" (click)="close()">Close</button>
-  @if (!data.task.isCompleted) {
-  <button matButton="outlined" (click)="enableEdit()">Edit</button>
-  }
-  } @else {
-  <button matButton="filled" (click)="cancelEdit()">Cancel</button>
-  <button matButton="outlined" (click)="save()">Save</button>
-  }
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</form>

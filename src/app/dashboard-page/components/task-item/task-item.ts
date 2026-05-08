@@ -11,6 +11,7 @@ import { ICategoryResponse, ITaskResponse, IUpdateTaskRequest } from '../../../c
 
 import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'todo-task-item',
@@ -22,6 +23,8 @@ import { ConfirmationDialog } from '../../../shared/components/confirmation-dial
     MatCardContent,
     MatButtonModule,
     MatCheckboxModule,
+
+    DatePipe,
   ],
   templateUrl: './task-item.html',
   styleUrl: './task-item.scss',

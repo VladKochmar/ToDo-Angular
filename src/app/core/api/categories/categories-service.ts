@@ -28,7 +28,6 @@ export class CategoriesService {
 
     this._http.get<ICategoryResponse[]>(this._baseUrl).subscribe({
       next: (response) => {
-        console.log(response);
         this._categories.set(response);
         this._isLoading.set(false);
       },

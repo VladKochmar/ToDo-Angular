@@ -19,4 +19,24 @@
   &__text {
     color: var(--mat-sys-on-surface);
   }
+  // .dialog-content__due-date-container
+  &__due-date-container {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+
+    mat-form-field {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.75rem 0;
+
+      mat-form-field {
+        width: 100%;
+      }
+    }
+  }
 }

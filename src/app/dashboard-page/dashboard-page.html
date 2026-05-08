@@ -19,17 +19,23 @@
     <mat-form-field appearance="outline" class="dashboard__create-field">
       <mat-icon matPrefix>add</mat-icon>
 
-      <input matInput placeholder="Add a new task..." [(ngModel)]="newTaskTitle" (keydown.enter)="createTask()" />
+      <input matInput placeholder="Add a new task..." [formControl]="newTaskTitleControl" (keydown.enter)="createTask()" />
 
-      @if (newTaskTitle) {
+      @if (newTaskTitleControl.value) {
       <button matIconButton matSuffix type="button" (click)="clearInput()">
         <mat-icon>close</mat-icon>
       </button>
       }
 
-      <button matIconButton matSuffix color="primary" type="button" (click)="createTask()" [disabled]="!newTaskTitle.trim()">
+      <button matIconButton matSuffix color="primary" type="button" (click)="createTask()" [disabled]="newTaskTitleControl.invalid">
         <mat-icon>send</mat-icon>
       </button>
+
+      @if (newTaskTitleControl.invalid) {
+      <mat-error>
+        {{ errorMessage() }}
+      </mat-error>
+      }
     </mat-form-field>
   </div>
 </todo-sidebar>

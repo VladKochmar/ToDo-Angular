@@ -5,13 +5,20 @@
   <div class="dialog-contetn">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput [(ngModel)]="title" />
+
+      <input matInput [formControl]="titleControl" (blur)="updateErrorMessage()" />
+
+      @if (titleControl.invalid) {
+      <mat-error>
+        {{ errorMessage() }}
+      </mat-error>
+      }
     </mat-form-field>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button matButton="filled" (click)="cancel()" [disabled]="isLoading()">Cancel</button>
-  <button matButton="outlined" (click)="submit()" [disabled]="isLoading()">
+  <button matButton="outlined" (click)="submit()" [disabled]="isLoading() || titleControl.invalid">
     {{ isEditMode ? 'Save' : 'Create' }}
   </button>
 </mat-dialog-actions>
